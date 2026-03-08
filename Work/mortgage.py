@@ -15,25 +15,25 @@ while((principal > 0) and (month < extra_payment_start_month)):
     principal = principal * (1 + interest_rate/12) - monthly_payment
     month += 1
     total_paid += monthly_payment
-    print(round(total_paid, ndigits=4), round(principal, ndigits=4))
+    print(f'{total_paid:<11.4f}', f'{principal:<11.4f}')
 
 while((month >= extra_payment_start_month) and (month <= extra_payment_end_month)):
     principal = principal * (1 + interest_rate/12) - (monthly_payment + extra_payment)
     month += 1
     total_paid += (monthly_payment + extra_payment)
-    print(round(total_paid, ndigits=4), round(principal, ndigits=4))
+    print(f'{total_paid:<11.4f}', f'{principal:<11.4f}')
 
 while(principal > 0):
     if((principal * (1 + interest_rate/12)) < monthly_payment):
         total_paid += principal * (1 + interest_rate/12)
         month += 1
         principal = 0
-        print(round(total_paid, ndigits=4), round(principal, ndigits=4))
+        print(f'{total_paid:<11.4f}', f'{principal:<11.4f}')
         break
     principal = principal * (1 + interest_rate/12) - monthly_payment
     month += 1
     total_paid += monthly_payment
-    print(round(total_paid, ndigits=4), round(principal, ndigits=4))
+    print(f'{total_paid:<11.4f}', f'{principal:<11.4f}')
 
 print('Total paid:', total_paid)
 print('Months required:', month-1)
