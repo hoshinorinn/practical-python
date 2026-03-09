@@ -12,7 +12,7 @@ def read_portfolio(filename):
         next(file)
         for line in file:
             l = line.split(',')
-            tup = (l[0], float(l[1]), float(l[2]))
-            res.append(tup)
+            dic = {'name': l[0], 'shares': float(l[1]), 'price': float(l[2])}
+            res.append(dic)
 
     return res
