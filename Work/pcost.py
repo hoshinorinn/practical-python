@@ -10,13 +10,13 @@ def portfolio_cost(file_name):
     fail = 0
     with open(f'{file_name}', 'r') as f:
         next(f)
-        for line in f:
+        for i, line in enumerate(f):
             try:
                 l = line.split(',')
                 cost += float(l[1]) * float(l[2])
             except ValueError:
                 fail +=1
-                print(f'{fail} line(s) failed, total cost can be wrong, check your file!')
+                print(f'Row {i+1}: Couldn\'t convert: {line}')
                 pass
     return cost
 
