@@ -11,11 +11,12 @@ def read_portfolio(filename):
     res = []
 
     with open(f'{filename}', 'r') as file:
-        next(file)
-        for line in file:
-            l = line.split(',')
-            dic = {'name': l[0], 'shares': float(l[1]), 'price': float(l[2])}
-            res.append(dic)
+        rows = csv.reader(file)
+        head = next(rows)
+        for row in rows:
+            record = dict(zip(head, row))
+            dic = {'name': record['name'], 'shares': int(record['shares']), 'price': float(record['price'])}
+            res.append(dic)            
 
     return res
 
