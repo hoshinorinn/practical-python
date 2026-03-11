@@ -48,7 +48,14 @@ def make_report(portfolio: list, prices: dict) -> list:
         change = current_price - previous_price
         line = [l['name'], l['shares'], current_price, change]
         res.append(tuple(line))
-    
+
+    return res
+
+def print_report(report: list):
+    '''
+    Take a list contains the name, shares, price, change, and output a beautiful chart.
+    '''
+
     # output a chart
     headers = ('Name', 'Shares', 'Price', 'Change')
     a, b, c, d = headers
@@ -56,8 +63,19 @@ def make_report(portfolio: list, prices: dict) -> list:
 
     print(f"{'':->10s} {'':->10s} {'':->10s} {'':->10s}")
 
-    for a, b, c, d in res:
+    for a, b, c, d in report:
         price_str = f'${c:.2f}'
         print(f'{a:>10s} {b:>10d} {price_str:>10s} {d:>10.2f}')
 
+    return
+
+def portfolio_report(path1: str, path2: str):
+    '''
+    Take 2 paths as input, and output a chart describing the portfolios.
+    '''
+    portfolio = read_portfolio(path1)
+    price = read_prices(path2)
+    report = make_report(portfolio, price)
+    print_report(report)
+    
     return
