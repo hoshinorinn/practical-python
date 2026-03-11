@@ -4,7 +4,7 @@
 
 import csv
 
-def parse_csv(filename, select: list) -> list:
+def parse_csv(filename, select=None, types=None) -> list:
     '''
     Parse a CSV file into a list of records
     '''
@@ -29,6 +29,10 @@ def parse_csv(filename, select: list) -> list:
             # Filter the row if specific columns were selected
             if indices:
                 row = [ row[index] for index in indices ]
+
+            # Convert the types
+            if types:
+                row = [func(val) for func, val in zip(types, row)]
 
             # Make a dictionary
             record = dict(zip(headers, row))
