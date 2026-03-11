@@ -57,6 +57,7 @@ def make_report(portfolio: list, prices: dict) -> list:
     print(f"{'':->10s} {'':->10s} {'':->10s} {'':->10s}")
 
     for a, b, c, d in res:
-        print(f'{a:>10s} {b:>10d} {c:>10.2f} {d:>10.2f}')
+        price_str = f'${c:.2f}'
+        print(f'{a:>10s} {b:>10d} {price_str:>10s} {d:>10.2f}')
 
     return
