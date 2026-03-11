@@ -49,4 +49,14 @@ def make_report(portfolio: list, prices: dict) -> list:
         line = [l['name'], l['shares'], current_price, change]
         res.append(tuple(line))
     
-    return res
+    # output a chart
+    headers = ('Name', 'Shares', 'Price', 'Change')
+    a, b, c, d = headers
+    print(f'{a:>10s} {b:>10s} {c:>10s} {d:>10s}')
+
+    print(f"{'':->10s} {'':->10s} {'':->10s} {'':->10s}")
+
+    for a, b, c, d in res:
+        print(f'{a:>10s} {b:>10d} {c:>10.2f} {d:>10.2f}')
+
+    return
