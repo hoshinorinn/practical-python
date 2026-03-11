@@ -36,3 +36,17 @@ def read_prices(filename):
                 pass
 
     return res
+
+def make_report(portfolio: list, prices: dict) -> list:
+    '''
+    Takes a list of stocks and dictionary of prices as input and returns a list of tuples containing the Name, Shares, Price and Change.
+    '''
+    res = []
+    for l in portfolio:
+        current_price = prices[l['name']]
+        previous_price = l['price']
+        change = current_price - previous_price
+        line = [l['name'], l['shares'], current_price, change]
+        res.append(tuple(line))
+    
+    return res
