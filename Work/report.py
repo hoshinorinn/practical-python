@@ -4,20 +4,24 @@
 
 import csv
 import fileparse
+from stock import Stock
 
 def read_portfolio(filename):
     '''
     Read the portfolio file and return a list of tuples containing the contents of the file.
     '''
-    with open(filename, 'r') as lines:
-        return fileparse.parse_csv(lines, select=['name','shares','price'], types=[str,int,float])
+    with open(filename) as lines:
+        portdicts = fileparse.parse_csv(lines, select=['name','shares','price'], types=[str,int,float])
+    
+    portfolio = [Stock(d['name'], d['shares'], d['price']) for d in portdicts]
+    return portfolio
 
 def read_prices(filename):
     '''
     Read the name-price file into a dictionary.
     '''
     with open(filename) as lines:
-        return dict(fileparse.parse_csv(filename,types=[str,float], has_headers=False))
+        return dict(fileparse.parse_csv(lines, types=[str,float], has_headers=False))
 
 def make_report(portfolio: list, prices: dict) -> list:
     '''
@@ -25,10 +29,10 @@ def make_report(portfolio: list, prices: dict) -> list:
     '''
     res = []
     for l in portfolio:
-        current_price = prices[l['name']]
-        previous_price = l['price']
+        current_price = prices[l.name]
+        previous_price = l.price
         change = current_price - previous_price
-        line = [l['name'], l['shares'], current_price, change]
+        line = [l.name, l.shares, current_price, change]
         res.append(tuple(line))
 
     return res
