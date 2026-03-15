@@ -9,13 +9,15 @@ def read_portfolio(filename):
     '''
     Read the portfolio file and return a list of tuples containing the contents of the file.
     '''
-    return fileparse.parse_csv(filename, select=['name','shares','price'], types=[str,int,float])
+    with open(filename, 'r') as lines:
+        return fileparse.parse_csv(lines, select=['name','shares','price'], types=[str,int,float])
 
 def read_prices(filename):
     '''
     Read the name-price file into a dictionary.
     '''
-    return dict(fileparse.parse_csv(filename,types=[str,float], has_headers=False))
+    with open(filename) as lines:
+        return dict(fileparse.parse_csv(filename,types=[str,float], has_headers=False))
 
 def make_report(portfolio: list, prices: dict) -> list:
     '''
