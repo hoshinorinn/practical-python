@@ -5,6 +5,7 @@
 import csv
 import fileparse
 from stock import Stock
+import tableformat
 
 def read_portfolio(filename):
     '''
@@ -37,39 +38,34 @@ def make_report(portfolio: list, prices: dict) -> list:
 
     return res
 
-def print_report(report: list):
+def print_report(reportdata, formatter):
     '''
-    Take a list contains the name, shares, price, change, and output a beautiful chart.
+    Print a nicely formatted table from a list of (name, shares, price, change) tuples.
     '''
+    formatter.headings(['Name','Shares','Price','Change'])
+    for name, shares, price, change in reportdata:
+        rowdata = [ name, str(shares), f'{price:0.2f}', f'{change:0.2f}' ]
+        formatter.row(rowdata)
 
-    # output a chart
-    headers = ('Name', 'Shares', 'Price', 'Change')
-    a, b, c, d = headers
-    print(f'{a:>10s} {b:>10s} {c:>10s} {d:>10s}')
-
-    print(f"{'':->10s} {'':->10s} {'':->10s} {'':->10s}")
-
-    for a, b, c, d in report:
-        price_str = f'${c:.2f}'
-        print(f'{a:>10s} {b:>10d} {price_str:>10s} {d:>10.2f}')
-
-    return
-
-def portfolio_report(path1: str, path2: str):
+def portfolio_report(portfoliofile, pricefile, fmt='txt'):
     '''
-    Take 2 paths as input, and output a chart describing the portfolios.
+    Make a stock report given portfolio and price data files.
     '''
-    portfolio = read_portfolio(path1)
-    price = read_prices(path2)
-    report = make_report(portfolio, price)
-    print_report(report)
-    
-    return
+    # Read data files
+    portfolio = read_portfolio(portfoliofile)
+    prices = read_prices(pricefile)
+
+    # Create the report data
+    report = make_report(portfolio, prices)
+
+    # Print it out
+    formatter = tableformat.create_formatter(fmt)
+    print_report(report, formatter)
 
 def main(args):
-    if len(args) != 3:
+    if len(args) != 4:
         raise SystemExit('Usage: %s portfile pricefile' % args[0])
-    portfolio_report(args[1], args[2])
+    portfolio_report(args[1], args[2], args[3])
 
 if __name__ == '__main__':
     import sys
